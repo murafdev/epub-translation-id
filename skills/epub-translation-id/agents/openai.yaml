@@ -1,0 +1,4 @@
+interface:
+  display_name: "Terjemahan EPUB ke Bahasa Indonesia"
+  short_description: "Terjemahkan EPUB utuh, jaga gambar dan struktur, hasilkan TXT"
+  default_prompt: "Gunakan $epub-translation-id untuk menerjemahkan EPUB ini ke bahasa Indonesia secara kontekstual, mempertahankan semua gambar dan posisi paragraf, lalu validasi EPUB serta ekstrak chapter ke TXT beserta estimasi durasi TTS."

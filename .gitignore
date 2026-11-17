@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+
+# Local host-specific skill installs (project scope)
+.claude/
+.agents/
+.cursor/
+.gemini/
+.opencode/
+
+# Translation workspaces and outputs can contain copyrighted material.
+work/
+chapters/
+render/
+*.epub
+*.pdf
+validation.txt
+image-audit.txt
+translation-revision-notes.md
