@@ -1,7 +1,4 @@
-.PHONY: test install install-all
-
-test:
-	python3 skills/epub-translation-id/tests/test_pipeline.py
+.PHONY: install install-all
 
 install:
 	./install.sh

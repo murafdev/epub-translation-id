@@ -238,8 +238,6 @@ Tes sintetis bawaan repo:
 
 ```bash
 python3 skills/epub-translation-id/tests/test_pipeline.py
-# atau
-make test
 ```
 
 Kriteria lulus:

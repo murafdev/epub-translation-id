@@ -45,7 +45,7 @@ skills/epub-translation-id/
 ## Test
 
 ```bash
-make test
+python3 skills/epub-translation-id/tests/test_pipeline.py
 ```
 
 ## License
