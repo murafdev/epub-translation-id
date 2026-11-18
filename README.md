@@ -8,9 +8,32 @@ Works with OpenCode, Claude Code, Codex, Cursor, Gemini CLI, and other Agent Ski
 
 ## Install
 
+**Copy this to your agent:**
+
 ```text
 Install the `epub-translation-id` Agent Skill from https://github.com/murafdev/epub-translation-id with `npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a <your-agent> --copy -y`, choosing the correct agent flag (`claude-code`, `opencode`, `codex`, `cursor`, or `gemini-cli`), then verify it appears in your skill list.
 ```
+
+### Manual install
+
+Clone the repo and copy the skill to your host directory:
+
+```bash
+git clone https://github.com/murafdev/epub-translation-id.git
+cd epub-translation-id
+
+# Choose one:
+DEST="$HOME/.config/opencode/skills"   # OpenCode
+# DEST="$HOME/.claude/skills"          # Claude Code
+# DEST="$HOME/.agents/skills"          # Codex / universal
+# DEST="$HOME/.cursor/skills"          # Cursor
+# DEST="$HOME/.gemini/skills"          # Gemini CLI
+
+mkdir -p "$DEST"
+cp -R skills/epub-translation-id "$DEST/"
+```
+
+For project scope, use `.opencode/skills`, `.claude/skills`, `.agents/skills`, or `.gemini/skills` in your repository.
 
 ## Features
 
