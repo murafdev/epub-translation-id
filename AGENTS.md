@@ -5,6 +5,5 @@ Agent Skill for translating EPUB / light novels into Indonesian while preserving
 - Skill: [`skills/epub-translation-id/SKILL.md`](skills/epub-translation-id/SKILL.md)
 - Install: see [README.md](README.md#install)
 - Human guide: [`INSTRUCTIONS.md`](INSTRUCTIONS.md)
-- Test: `python3 skills/epub-translation-id/tests/test_pipeline.py`
 
 Do not commit EPUBs, translated book text, or cover art without permission.

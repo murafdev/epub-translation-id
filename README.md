@@ -42,12 +42,6 @@ skills/epub-translation-id/
   tests/
 ```
 
-## Test
-
-```bash
-python3 skills/epub-translation-id/tests/test_pipeline.py
-```
-
 ## License
 
 MIT. See [LICENSE](LICENSE).

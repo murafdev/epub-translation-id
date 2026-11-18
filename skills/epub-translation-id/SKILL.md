@@ -276,16 +276,6 @@ translation-revision-notes.md
 9. **Watermark bukan chapter.** Baris seperti “Download all your Fav Light Novels from Just Light Novels” tidak punya section sendiri. Tangani lewat `auxiliary.json` atau padanan bawaan builder.
 10. **Jangan mengklaim selesai tanpa bukti.** Tunjukkan hasil validasi dan sampel teks.
 
-## Uji skill
-
-Sebelum dipakai pada buku baru, jalankan tes sintetis:
-
-```bash
-python3 "$SKILL_DIR/tests/test_pipeline.py"
-```
-
-Tes membuat EPUB mini tanpa konten berhak cipta, menjalankan seluruh pipeline, dan memeriksa gambar, posisi gambar, TOC, cover fallback, penanda italic/bold, validasi, dan ekstraksi chapter.
-
 ## Etika dan hak cipta
 
 Terjemahkan hanya karya yang Anda punya haknya. Jangan menyebarkan EPUB sumber, teks terjemahan, atau cover art tanpa izin. Skill ini tidak melakukan bypass DRM.
