@@ -6,7 +6,11 @@ Agent Skill for translating EPUB / light novels into Indonesian while preserving
 
 Works with OpenCode, Claude Code, Codex, Cursor, Gemini CLI, and other Agent Skills hosts.
 
-**Install:** [INSTALL.md](INSTALL.md)
+## Install
+
+```text
+Install the `epub-translation-id` Agent Skill from https://github.com/murafdev/epub-translation-id with `npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a <your-agent> --copy -y`, choosing the correct agent flag (`claude-code`, `opencode`, `codex`, `cursor`, or `gemini-cli`), then verify it appears in your skill list.
+```
 
 ## Features
 
@@ -28,7 +32,7 @@ Manual workflow: [INSTRUCTIONS.md](INSTRUCTIONS.md).
 ## Structure
 
 ```text
-INSTALL.md
+README.md
 INSTRUCTIONS.md
 skills/epub-translation-id/
   SKILL.md
@@ -56,7 +60,7 @@ Agent Skill untuk menerjemahkan EPUB / light novel ke bahasa Indonesia tanpa mer
 
 Mendukung OpenCode, Claude Code, Codex, Cursor, Gemini CLI, dan host Agent Skills lain.
 
-**Instalasi:** [INSTALL.md](INSTALL.md)
+**Instalasi:** lihat bagian [Install](#install).
 
 ### Fitur
 

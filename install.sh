@@ -28,7 +28,7 @@ Options:
   --link          Symlink the skill folder instead of copying.
   --help          Show this help.
 
-Recommended installer: see INSTALL.md
+Recommended installer: see README.md
 
 Examples:
   ./install.sh

@@ -11,7 +11,7 @@ compatibility: Python 3.8+; bash for the installer; optional WeasyPrint/pdfimage
 
 Skill ini mengikuti **Agent Skills open standard** dan dapat dipakai di OpenCode, Claude Code, Codex, Cursor, Gemini CLI, serta host lain yang mendukung `SKILL.md`.
 
-Instalasi: lihat `INSTALL.md` di repo.
+Instalasi: lihat bagian Install di README repo.
 
 Script Python hanya memakai standard library dan tidak bergantung pada satu host. Perintah shell memakai `bash`; di Windows gunakan Git Bash/WSL atau jalankan skrip Python langsung.
 

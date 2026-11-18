@@ -4,7 +4,7 @@ Panduan untuk manusia. Instruksi yang dibaca agent ada di [`skills/epub-translat
 
 ## Instalasi
 
-Lihat [`INSTALL.md`](INSTALL.md).
+Lihat bagian [Install](README.md#install) di README.
 
 ## Prasyarat
 
