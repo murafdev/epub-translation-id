@@ -28,8 +28,7 @@ Options:
   --link          Symlink the skill folder instead of copying.
   --help          Show this help.
 
-Recommended cross-host installer:
-  npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a claude-code --copy -y
+Recommended installer: see INSTALL.md
 
 Examples:
   ./install.sh

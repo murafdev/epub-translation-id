@@ -9,33 +9,11 @@ compatibility: Python 3.8+; bash for the installer; optional WeasyPrint/pdfimage
 
 ## Kompatibilitas
 
-Skill ini mengikuti **Agent Skills open standard** (`SKILL.md` + `scripts/` + `references/`) dan dapat dipakai di beberapa host:
+Skill ini mengikuti **Agent Skills open standard** dan dapat dipakai di OpenCode, Claude Code, Codex, Cursor, Gemini CLI, serta host lain yang mendukung `SKILL.md`.
 
-| Host | Path instalasi user | Invokasi |
-|---|---|---|
-| OpenCode | `~/.config/opencode/skills/epub-translation-id` | `$epub-translation-id` atau bahasa alami |
-| Claude Code | `~/.claude/skills/epub-translation-id` | `/epub-translation-id` |
-| Codex | `~/.agents/skills/epub-translation-id` | `$epub-translation-id` |
-| Cursor | `~/.cursor/skills/epub-translation-id` | pilih skill / bahasa alami |
-| Gemini CLI | `~/.gemini/skills/epub-translation-id` | pilih skill / bahasa alami |
-| Universal / host lain | `~/.agents/skills/epub-translation-id` | sesuai host |
+Instalasi: lihat `INSTALL.md` di repo.
 
-Instalasi lintas host yang disarankan:
-
-```bash
-npx skills add murafdev/epub-translation-id \
-  --skill epub-translation-id -g -a claude-code --copy -y
-# ganti -a dengan: opencode, codex, cursor, gemini-cli, '*'
-# hilangkan -g untuk instalasi project scope
-```
-
-Fallback tanpa `npx`:
-
-```bash
-./install.sh --agent all
-```
-
-Script Python hanya memakai standard library dan tidak bergantung pada OpenCode. Perintah shell di dokumen ini memakai `bash`; di Windows gunakan Git Bash/WSL atau jalankan skrip Python langsung.
+Script Python hanya memakai standard library dan tidak bergantung pada satu host. Perintah shell memakai `bash`; di Windows gunakan Git Bash/WSL atau jalankan skrip Python langsung.
 
 ## Tujuan
 
