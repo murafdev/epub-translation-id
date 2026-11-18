@@ -20,14 +20,14 @@ It is designed for context-aware literary translation, not word-for-word replace
 
 ### Works with
 
-| Host | Install with | Invoke with |
+| Host | npx agent flag | Invoke with |
 |---|---|---|
-| OpenCode | `--agent opencode` | `$epub-translation-id` |
-| Claude Code | `--agent claude-code` | `/epub-translation-id` |
-| Codex | `--agent codex` | `$epub-translation-id` |
-| Cursor | `--agent cursor` | skill picker / natural language |
-| Gemini CLI | `--agent gemini-cli` | skill picker / natural language |
-| Other Agent Skills hosts | `--agent universal` | host-specific |
+| OpenCode | `-a opencode` | `$epub-translation-id` |
+| Claude Code | `-a claude-code` | `/epub-translation-id` |
+| Codex | `-a codex` | `$epub-translation-id` |
+| Cursor | `-a cursor` | skill picker / natural language |
+| Gemini CLI | `-a gemini-cli` | skill picker / natural language |
+| Other Agent Skills hosts | `-a '*'` | host-specific |
 
 The package follows the open Agent Skills layout: `SKILL.md`, `scripts/`, `references/`, and optional `agents/openai.yaml`. The Python scripts use only the standard library, so they are not tied to a particular agent.
 
@@ -40,37 +40,47 @@ The package follows the open Agent Skills layout: `SKILL.md`, `scripts/`, `refer
 - **Context audits** — repeated paragraph, sentence, and independent chapter-group audits until no definite meaning errors remain.
 - **EPUB validation** — XML/OPF/NCX parsing, manifest/spine checks, `mimetype` rules, SHA-256 image comparison, image counts and positions, internal links, paragraph alignment, and untranslated-English detection.
 - **Chapter TXT export** — `bab-01.txt`, `selingan-01.txt`, and `daftar-isi.txt`, with scene breaks preserved.
-- **TTS duration estimates** — each chapter TXT gets an estimated speaking time at 140 words/minute (a conservative upper bound, configurable with `--wpm`); the index includes per-chapter and total duration.
+- **TTS duration estimates** — `daftar-isi.txt` includes per-chapter and total speaking time at 140 words/minute (a conservative upper bound, configurable with `--wpm`); chapter TXT files stay clean.
 - **Synthetic test** — a copyright-free mini EPUB exercises the whole pipeline.
 
 ### Requirements
 
 - Python 3.8+ (standard library only)
+- Node.js 18+ with `npx` for the easiest cross-host installation
 - One supported agent, or any tool that can run the Python scripts manually
-- `gh` with `gh skill install` for the easiest cross-host installation (optional)
 - Optional: `indonesia-eyd-writing-skill` for Indonesian editorial review
 - Optional: WeasyPrint and `pdfimages` for visual rendering checks
 
 ### Install
 
-The recommended installer is GitHub CLI, which understands host-specific skill directories:
+**Copy this line into your AI agent chat** so it installs the skill itself:
+> Install the `epub-translation-id` Agent Skill from https://github.com/murafdev/epub-translation-id with `npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a <your-agent> --copy -y` (replace `<your-agent>` with `claude-code`, `opencode`, `codex`, `cursor`, or `gemini-cli`), then verify it appears in your skill list.
+
+The recommended installer is `npx skills`, which understands host-specific skill directories:
 
 ```bash
-# Pick one agent:
-gh skill install murafdev/epub-translation-id epub-translation-id \
-  --agent claude-code --scope user
+# List the skill in the repository
+npx skills add murafdev/epub-translation-id --list
+
+# Install globally for Claude Code
+npx skills add murafdev/epub-translation-id \
+  --skill epub-translation-id -g -a claude-code --copy -y
 
 # Other agents:
-# --agent opencode
-# --agent codex
-# --agent cursor
-# --agent gemini-cli
-# --agent universal
+# -a opencode
+# -a codex
+# -a cursor
+# -a gemini-cli
+# -a '*'
+
+# Project scope: omit -g
+npx skills add murafdev/epub-translation-id \
+  --skill epub-translation-id -a claude-code --copy -y
 ```
 
-Use `--scope project` to install into the current repository instead of your user directory.
+`--copy` is recommended on Termux/Android or any filesystem where symlinks are unreliable. Project-scope installs also create `skills-lock.json`; commit it if you want to pin the skill.
 
-Without `gh skill install`, use the bundled installer:
+If you prefer a local installer without `npx`, use the bundled script:
 
 ```bash
 git clone https://github.com/murafdev/epub-translation-id.git
@@ -179,7 +189,7 @@ See [`INSTRUCTIONS.md`](INSTRUCTIONS.md) for the full workflow, file formats, au
 | `extract_sections.py` | Extract paragraph-aligned source text, `{i}`/`{b}` markers, scene breaks, and inline image positions. |
 | `build_epub.py` | Build the translated EPUB, preserve XHTML head/body, re-insert images, translate TOC/NCX and auxiliary labels, normalise images, add cover fallback. |
 | `validate_epub.py` | Validate ZIP/mimetype, XML, manifest/spine, image hashes/counts/positions, links, paragraph alignment, and English leftovers. |
-| `extract_chapters.py` | Export story chapters to TXT with estimated TTS duration and write `daftar-isi.txt`. |
+| `extract_chapters.py` | Export clean story chapters to TXT and write `daftar-isi.txt` with estimated TTS duration. |
 
 Optional workspace files:
 
@@ -195,14 +205,16 @@ Optional workspace files:
 
 ### TTS duration
 
-Each chapter TXT starts with an estimated speaking time:
+Chapter TXT files contain only the title and paragraphs. Estimated speaking time lives in `daftar-isi.txt`:
 
 ```text
-Bab 1: ...
-Perkiraan durasi TTS: 22 menit 9 detik (140 kata/menit)
+Perkiraan durasi TTS: 140 kata/menit
+
+bab-01.txt | 3102 kata | 22 mnt 9 dtk | Bab 1: ...
+Total: 12 chapter | 54640 kata | 6 jam 30 menit 18 detik
 ```
 
-The default is deliberately conservative. Use `--wpm 150` for a slightly faster estimate, or `--no-duration` to omit the estimate. `daftar-isi.txt` also lists per-chapter and total duration.
+The default is deliberately conservative. Use `--wpm 150` for a slightly faster estimate, or `--no-duration` to omit duration from the index.
 
 ### Test
 
@@ -240,14 +252,14 @@ Skill ini menekankan terjemahan yang sadar konteks, bukan kata per kata. Gunakan
 
 ### Kompatibilitas host
 
-| Host | Instalasi | Invokasi |
+| Host | Flag agent npx | Invokasi |
 |---|---|---|
-| OpenCode | `--agent opencode` | `$epub-translation-id` |
-| Claude Code | `--agent claude-code` | `/epub-translation-id` |
-| Codex | `--agent codex` | `$epub-translation-id` |
-| Cursor | `--agent cursor` | skill picker / bahasa alami |
-| Gemini CLI | `--agent gemini-cli` | skill picker / bahasa alami |
-| Host Agent Skills lain | `--agent universal` | sesuai host |
+| OpenCode | `-a opencode` | `$epub-translation-id` |
+| Claude Code | `-a claude-code` | `/epub-translation-id` |
+| Codex | `-a codex` | `$epub-translation-id` |
+| Cursor | `-a cursor` | skill picker / bahasa alami |
+| Gemini CLI | `-a gemini-cli` | skill picker / bahasa alami |
+| Host Agent Skills lain | `-a '*'` | sesuai host |
 
 Skrip Python hanya memakai standard library, jadi tidak terikat pada satu agent. Perintah shell memakai `bash`; di Windows gunakan Git Bash/WSL atau jalankan skrip Python langsung.
 
@@ -260,37 +272,47 @@ Skrip Python hanya memakai standard library, jadi tidak terikat pada satu agent.
 - **Audit konteks** — audit paragraf, kalimat, dan kelompok chapter secara independen, diulang sampai tidak ada kesalahan makna yang pasti.
 - **Validasi EPUB** — XML/OPF/NCX, manifest/spine, aturan `mimetype`, hash SHA-256 gambar, jumlah dan posisi gambar, link internal, keselarasan paragraf, dan sisa bahasa Inggris.
 - **Ekstrak chapter TXT** — `bab-01.txt`, `selingan-01.txt`, dan `daftar-isi.txt`; scene break `***` dipertahankan.
-- **Perkiraan durasi TTS** — setiap TXT chapter mendapat estimasi waktu baca pada 140 kata/menit (estimasi konservatif, bisa diubah dengan `--wpm`); indeks memuat durasi per chapter dan total.
+- **Perkiraan durasi TTS** — `daftar-isi.txt` memuat estimasi waktu baca per chapter dan total pada 140 kata/menit (estimasi konservatif, bisa diubah dengan `--wpm`); TXT chapter tetap bersih.
 - **Tes sintetis** — EPUB mini tanpa konten berhak cipta untuk menguji seluruh pipeline.
 
 ### Kebutuhan
 
 - Python 3.8+ (hanya standard library)
+- Node.js 18+ dengan `npx` untuk instalasi lintas host termudah
 - Salah satu agent yang didukung, atau alat apa pun yang bisa menjalankan skrip Python secara manual
-- `gh` dengan `gh skill install` untuk instalasi lintas host termudah (opsional)
 - Opsional: `indonesia-eyd-writing-skill` untuk penyuntingan bahasa Indonesia
 - Opsional: WeasyPrint dan `pdfimages` untuk pemeriksaan render visual
 
 ### Instalasi
 
-Cara yang disarankan adalah GitHub CLI, yang tahu path skill tiap host:
+**Copy baris ini ke chat AI agent** agar dia memasang skill ini sendiri:
+> Pasang Agent Skill `epub-translation-id` dari https://github.com/murafdev/epub-translation-id dengan `npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a <agent> --copy -y` (ganti `<agent>` dengan `claude-code`, `opencode`, `codex`, `cursor`, atau `gemini-cli`), lalu pastikan skill muncul di daftar skill.
+
+Cara yang disarankan adalah `npx skills`, yang tahu path skill tiap host:
 
 ```bash
-# Pilih salah satu agent:
-gh skill install murafdev/epub-translation-id epub-translation-id \
-  --agent claude-code --scope user
+# Lihat skill yang tersedia di repo
+npx skills add murafdev/epub-translation-id --list
+
+# Install global untuk Claude Code
+npx skills add murafdev/epub-translation-id \
+  --skill epub-translation-id -g -a claude-code --copy -y
 
 # Agent lain:
-# --agent opencode
-# --agent codex
-# --agent cursor
-# --agent gemini-cli
-# --agent universal
+# -a opencode
+# -a codex
+# -a cursor
+# -a gemini-cli
+# -a '*'
+
+# Scope project: hilangkan -g
+npx skills add murafdev/epub-translation-id \
+  --skill epub-translation-id -a claude-code --copy -y
 ```
 
-Gunakan `--scope project` untuk memasang ke repo saat ini, bukan ke direktori user.
+`--copy` disarankan di Termux/Android atau filesystem yang symlink-nya tidak andal. Instalasi project scope juga membuat `skills-lock.json`; commit file itu jika ingin mengunci skill.
 
-Tanpa `gh skill install`, gunakan installer bawaan:
+Jika ingin installer lokal tanpa `npx`, gunakan skrip bawaan:
 
 ```bash
 git clone https://github.com/murafdev/epub-translation-id.git
@@ -399,7 +421,7 @@ Panduan lengkap ada di [`INSTRUCTIONS.md`](INSTRUCTIONS.md).
 | `extract_sections.py` | Ekstrak teks selaras paragraf, penanda `{i}`/`{b}`, scene break, dan posisi gambar inline. |
 | `build_epub.py` | Bangun EPUB terjemahan, pertahankan head/body XHTML, sisipkan gambar, terjemahkan TOC/NCX dan label tambahan, normalkan gambar, fallback cover. |
 | `validate_epub.py` | Validasi ZIP/mimetype, XML, manifest/spine, hash/jumlah/posisi gambar, link, keselarasan paragraf, dan sisa bahasa Inggris. |
-| `extract_chapters.py` | Ekspor chapter cerita ke TXT dengan perkiraan durasi TTS dan tulis `daftar-isi.txt`. |
+| `extract_chapters.py` | Ekspor chapter cerita ke TXT bersih dan tulis `daftar-isi.txt` dengan perkiraan durasi TTS. |
 
 File opsional di workspace:
 
@@ -415,14 +437,16 @@ File opsional di workspace:
 
 ### Durasi TTS
 
-Setiap TXT chapter diawali perkiraan waktu baca:
+TXT chapter hanya berisi judul dan paragraf. Estimasi waktu baca ada di `daftar-isi.txt`:
 
 ```text
-Bab 1: ...
-Perkiraan durasi TTS: 22 menit 9 detik (140 kata/menit)
+Perkiraan durasi TTS: 140 kata/menit
+
+bab-01.txt | 3102 kata | 22 mnt 9 dtk | Bab 1: ...
+Total: 12 chapter | 54640 kata | 6 jam 30 menit 18 detik
 ```
 
-Default sengaja dibuat konservatif. Gunakan `--wpm 150` untuk estimasi yang sedikit lebih cepat, atau `--no-duration` untuk menghilangkan estimasi. `daftar-isi.txt` juga memuat durasi per chapter dan total.
+Default sengaja dibuat konservatif. Gunakan `--wpm 150` untuk estimasi yang sedikit lebih cepat, atau `--no-duration` untuk menghilangkan durasi dari daftar isi.
 
 ### Tes
 

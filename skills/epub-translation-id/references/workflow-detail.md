@@ -188,7 +188,7 @@ python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT" "$WORK" "$WORK/chapters"
 python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT" "$WORK/chapters"
 # kecepatan TTS lain:
 python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT" "$WORK" "$WORK/chapters" --wpm 150
-# tanpa header durasi:
+# tanpa kolom durasi di daftar-isi:
 python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT" "$WORK" "$WORK/chapters" --no-duration
 ```
 
@@ -197,7 +197,7 @@ Jika `$WORK` diberikan, skrip hanya mengekstrak section yang punya `id/section-X
 Periksa:
 - jumlah file sesuai jumlah chapter;
 - judul di baris pertama;
-- perkiraan durasi TTS di baris kedua;
+- TXT chapter hanya berisi judul dan paragraf, tanpa header durasi;
 - paragraf dipisahkan baris kosong;
 - `***` tetap ada;
 - tidak ada file kosong;

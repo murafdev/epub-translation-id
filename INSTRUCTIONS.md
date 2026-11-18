@@ -9,7 +9,7 @@ Skill ini mengikuti standar terbuka **Agent Skills** dan bisa dipasang di OpenCo
 - Python 3.8 atau lebih baru.
 - EPUB sumber yang Anda berhak terjemahkan.
 - Salah satu host: OpenCode, Claude Code, Codex, Cursor, Gemini CLI, atau host Agent Skills lain.
-- `gh` dengan `gh skill install` untuk instalasi lintas host termudah (opsional).
+- Node.js 18+ dengan `npx` untuk instalasi lintas host termudah.
 - Opsional: skill `indonesia-eyd-writing-skill` untuk penyuntingan bahasa Indonesia.
 - Opsional: WeasyPrint dan `pdfimages` untuk memeriksa hasil render.
 
@@ -17,22 +17,29 @@ Tidak ada dependensi Python eksternal; semua skrip memakai standard library. Per
 
 ## 2. Instalasi
 
-Cara yang disarankan adalah GitHub CLI, yang tahu path skill tiap host:
+**Copy baris ini ke chat AI agent** agar dia memasang skill ini sendiri:
+> Pasang Agent Skill `epub-translation-id` dari https://github.com/murafdev/epub-translation-id dengan `npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a <agent> --copy -y` (ganti `<agent>` dengan `claude-code`, `opencode`, `codex`, `cursor`, atau `gemini-cli`), lalu pastikan skill muncul di daftar skill.
+
+Cara yang disarankan adalah `npx skills`, yang tahu path skill tiap host:
 
 ```bash
-gh skill install murafdev/epub-translation-id epub-translation-id \
-  --agent claude-code --scope user
+# Lihat skill yang tersedia
+npx skills add murafdev/epub-translation-id --list
+
+# Install global untuk Claude Code
+npx skills add murafdev/epub-translation-id \
+  --skill epub-translation-id -g -a claude-code --copy -y
 ```
 
-Ganti `--agent` dengan salah satu:
+Ganti `-a` dengan salah satu:
 
 ```text
-opencode | claude-code | codex | cursor | gemini-cli | universal
+opencode | claude-code | codex | cursor | gemini-cli | '*'
 ```
 
-Gunakan `--scope project` untuk memasang ke repo saat ini.
+Hilangkan `-g` untuk instalasi project scope. `--copy` disarankan di Termux/Android atau filesystem yang symlink-nya tidak andal.
 
-Tanpa `gh skill install`, gunakan installer bawaan dari root repo:
+Jika ingin installer lokal tanpa `npx`, gunakan skrip bawaan dari root repo:
 
 ```bash
 ./install.sh
@@ -284,7 +291,7 @@ Tanpa `meta.json`:
 python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT" "$CHAPTERS"
 ```
 
-Ubah kecepatan TTS atau matikan header durasi:
+Ubah kecepatan TTS atau hilangkan durasi dari daftar isi:
 
 ```bash
 python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT" "$WORK" "$CHAPTERS" --wpm 150
@@ -296,7 +303,7 @@ Hasil:
 - `bab-01.txt`, `bab-02.txt`, dst.;
 - `selingan-01.txt` untuk interlude;
 - judul di baris pertama;
-- perkiraan durasi TTS di baris kedua, mis. `Perkiraan durasi TTS: 22 menit 9 detik (140 kata/menit)`;
+- TXT chapter hanya berisi judul dan paragraf, tanpa header durasi;
 - paragraf dipisahkan baris kosong;
 - `***` dipertahankan;
 - `daftar-isi.txt` berisi nama file, jumlah kata, durasi per chapter, judul, dan total durasi.

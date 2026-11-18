@@ -215,26 +215,27 @@ Penulis tinggal di kota kecil.
         chapters = base / "chapters"
         run(SCRIPTS / "extract_chapters.py", out, work, chapters)
         bab1 = (chapters / "bab-01.txt").read_text(encoding="utf-8")
-        assert bab1.startswith("Bab 1: Awal\nPerkiraan durasi TTS: ")
-        assert "(140 kata/menit)" in bab1.splitlines()[1]
-        assert "\n\nPagi itu dingin." in bab1
+        assert bab1.startswith("Bab 1: Awal\n\nPagi itu dingin.")
+        assert "Perkiraan durasi TTS" not in bab1
         assert "\n\n***\n\n" in bab1
         assert "Dia sangat yakin." in bab1
         assert (chapters / "bab-02.txt").exists()
         bab3 = (chapters / "bab-03.txt").read_text(encoding="utf-8")
-        assert bab3.startswith("Bab 3: Tambahan\nPerkiraan durasi TTS: ")
-        assert "\n\nBagian pertama." in bab3
+        assert bab3.startswith("Bab 3: Tambahan\n\nBagian pertama.")
+        assert "Perkiraan durasi TTS" not in bab3
         assert not (chapters / "tentang-penulis.txt").exists()
         index = (chapters / "daftar-isi.txt").read_text(encoding="utf-8")
         assert "Perkiraan durasi TTS: 140 kata/menit" in index
         assert "bab-01.txt" in index
         assert "Total: 3 chapter" in index
 
-        # Custom WPM and the plain output mode.
+        # Custom WPM affects the index, not the chapter TXT.
         chapters_wpm = base / "chapters-wpm"
         run(SCRIPTS / "extract_chapters.py", out, work, chapters_wpm, "--wpm", "120")
-        assert "(120 kata/menit)" in (chapters_wpm / "bab-01.txt").read_text(
-            encoding="utf-8").splitlines()[1]
+        assert "Perkiraan durasi TTS: 120 kata/menit" in (
+            chapters_wpm / "daftar-isi.txt").read_text(encoding="utf-8")
+        assert "Perkiraan durasi TTS" not in (
+            chapters_wpm / "bab-01.txt").read_text(encoding="utf-8")
 
         chapters_plain = base / "chapters-plain"
         run(SCRIPTS / "extract_chapters.py", out, work, chapters_plain,

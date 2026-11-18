@@ -23,11 +23,13 @@ Skill ini mengikuti **Agent Skills open standard** (`SKILL.md` + `scripts/` + `r
 Instalasi lintas host yang disarankan:
 
 ```bash
-gh skill install murafdev/epub-translation-id epub-translation-id --agent claude-code --scope user
-# ganti --agent dengan: opencode, codex, cursor, gemini-cli, universal
+npx skills add murafdev/epub-translation-id \
+  --skill epub-translation-id -g -a claude-code --copy -y
+# ganti -a dengan: opencode, codex, cursor, gemini-cli, '*'
+# hilangkan -g untuk instalasi project scope
 ```
 
-Fallback tanpa `gh skill install`:
+Fallback tanpa `npx`:
 
 ```bash
 ./install.sh --agent all
@@ -213,7 +215,7 @@ python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT_EPUB" "$WORK" "$CHAPTERS_
 python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT_EPUB" "$CHAPTERS_DIR"
 # ubah kecepatan TTS (default 140 kata/menit):
 python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT_EPUB" "$WORK" "$CHAPTERS_DIR" --wpm 150
-# tanpa header durasi:
+# tanpa kolom durasi di daftar-isi:
 python3 "$SKILL_DIR/scripts/extract_chapters.py" "$OUT_EPUB" "$WORK" "$CHAPTERS_DIR" --no-duration
 ```
 
@@ -221,7 +223,7 @@ Hasil:
 - satu file TXT per chapter (`bab-01.txt`, dst.; selingan menjadi `selingan-01.txt`);
 - halaman front/back matter (TOC, copyright, About the Author, Newsletter, cover) dilewati;
 - judul di baris pertama;
-- **perkiraan durasi TTS** di baris kedua, mis. `Perkiraan durasi TTS: 22 menit 9 detik (140 kata/menit)`;
+- TXT chapter hanya berisi judul dan paragraf, tanpa header durasi;
 - paragraf dipisahkan baris kosong;
 - scene break `***` dipertahankan;
 - `daftar-isi.txt` berisi nama file, jumlah kata, perkiraan durasi TTS, judul, dan total durasi.
@@ -255,7 +257,7 @@ $WORK/
   auxiliary.json        # opsional: padanan frasa halaman promosi
   metadata.json         # opsional: judul/penulis/identifier final
 $OUT_EPUB               # EPUB final
-chapters/               # TXT per chapter (dengan durasi TTS) + daftar-isi.txt
+chapters/               # TXT per chapter (bersih) + daftar-isi.txt berdurasi
 validation.txt
 image-audit.txt
 translation-revision-notes.md

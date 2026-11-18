@@ -8,7 +8,7 @@ This repository packages an Agent Skill for translating EPUB / light novels into
 ## Install for Gemini CLI
 
 ```bash
-gh skill install murafdev/epub-translation-id epub-translation-id --agent gemini-cli --scope user
+npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a gemini-cli --copy -y
 # or, from this repository:
 ./install.sh --agent gemini-cli
 ```

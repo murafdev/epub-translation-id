@@ -77,6 +77,6 @@ Jangan memaksakan istilah dari buku lain. Periksa variasi ejaan nama tokoh/tempa
 - [ ] Tidak ada scene break yang hilang.
 - [ ] Jumlah chapter dan judul sesuai.
 - [ ] File TXT per chapter bisa dibuka dan berisi teks lengkap.
-- [ ] Perkiraan durasi TTS ada di setiap chapter dan `daftar-isi.txt`.
+- [ ] Perkiraan durasi TTS hanya ada di `daftar-isi.txt`, bukan di TXT chapter.
 - [ ] Total durasi di `daftar-isi.txt` masuk akal untuk kecepatan `--wpm` yang dipakai.
 - [ ] Laporan validasi ditulis.

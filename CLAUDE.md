@@ -8,7 +8,7 @@ This repository packages an Agent Skill for translating EPUB / light novels into
 ## Install for Claude Code
 
 ```bash
-gh skill install murafdev/epub-translation-id epub-translation-id --agent claude-code --scope user
+npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a claude-code --copy -y
 # or, from this repository:
 ./install.sh --agent claude-code
 ```

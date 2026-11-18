@@ -7,7 +7,7 @@ Usage:
 
 Options:
     --wpm N          TTS speaking rate in words per minute (default: 140)
-    --no-duration    Do not add the estimated TTS duration header/column
+    --no-duration    Do not add estimated TTS duration to daftar-isi.txt
 
 If WORKDIR is given, meta.json from extract_sections.py is used for section
 order, and only sections with id/section-XXXX.txt are extracted.
@@ -198,13 +198,8 @@ def main():
 
         words = len(title.split()) + sum(len(p.split()) for p in paras)
         seconds = words / ns.wpm * 60
-        if ns.no_duration:
-            content = title + '\n\n' + '\n\n'.join(paras) + '\n'
-        else:
-            content = (title + '\n'
-                       + f'Perkiraan durasi TTS: {format_duration(seconds)} '
-                       + f'({wpm_label} kata/menit)\n\n'
-                       + '\n\n'.join(paras) + '\n')
+        # Keep chapter TXT clean: title + blank line + paragraphs.
+        content = title + '\n\n' + '\n\n'.join(paras) + '\n'
         with open(os.path.join(outdir, fname), 'w', encoding='utf-8') as f:
             f.write(content)
         entries.append((fname, words, seconds, title))

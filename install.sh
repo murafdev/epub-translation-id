@@ -24,12 +24,12 @@ Options:
                   Default: auto-detect installed hosts, else universal.
   --scope SCOPE   user (default) or project.
   --dir DIR       Install into DIR/epub-translation-id instead of a host path.
-  --copy          Copy files directly; do not call `gh skill install`.
+  --copy          Copy files instead of symlinking.
   --link          Symlink the skill folder instead of copying.
   --help          Show this help.
 
-Recommended universal installer (when GitHub CLI supports skills):
-  gh skill install murafdev/epub-translation-id epub-translation-id --agent claude-code --scope user
+Recommended cross-host installer:
+  npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a claude-code --copy -y
 
 Examples:
   ./install.sh
@@ -169,7 +169,7 @@ direct_dest() {
       gemini-cli) printf './.gemini/skills/%s\n' "$SKILL_NAME" ;;
       codex|cursor|universal) printf './.agents/skills/%s\n' "$SKILL_NAME" ;;
       *)
-        echo "Project-scope direct copy is not supported for $agent; use gh skill install." >&2
+        echo "Project-scope direct copy is not supported for $agent; use npx skills add." >&2
         return 1
         ;;
     esac
@@ -226,24 +226,10 @@ if [[ "$MODE" != "auto" ]]; then
   exit 0
 fi
 
-# Prefer the cross-host GitHub CLI installer when available.
-if command -v gh >/dev/null 2>&1 && gh skill install --help >/dev/null 2>&1; then
-  echo "Installing $SKILL_NAME with gh skill install:"
-  for agent in "${AGENTS[@]}"; do
-    if gh skill install "$SCRIPT_DIR" "$SKILL_NAME" --from-local \
-        --agent "$agent" --scope "$SCOPE" --force; then
-      printf '  %-12s installed\n' "$agent"
-    else
-      echo "  gh install failed for $agent; falling back to direct copy" >&2
-      install_direct "$agent"
-    fi
-  done
-else
-  echo "gh skill install not available; using direct copy:"
-  for agent in "${AGENTS[@]}"; do
-    install_direct "$agent"
-  done
-fi
+echo "Installing $SKILL_NAME directly:"
+for agent in "${AGENTS[@]}"; do
+  install_direct "$agent"
+done
 
 echo
 echo "Done. Invoke the skill by name in your host:"

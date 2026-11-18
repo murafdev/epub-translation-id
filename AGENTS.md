@@ -16,8 +16,8 @@ This repository packages an Agent Skill for translating EPUB / light novels into
 Universal, host-aware installer:
 
 ```bash
-gh skill install murafdev/epub-translation-id epub-translation-id --agent codex --scope user
-# agents: opencode, claude-code, codex, cursor, gemini-cli, universal
+npx skills add murafdev/epub-translation-id --skill epub-translation-id -g -a codex --copy -y
+# agents: opencode, claude-code, codex, cursor, gemini-cli, '*'
 ```
 
 Local fallback:
